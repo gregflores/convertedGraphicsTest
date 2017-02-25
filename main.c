@@ -94,6 +94,8 @@ void main(void) {
 	fillCircle(263, 183, 4);
 	setColor(COLOR_16_WHITE);
 
+	uint8_t fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7, fwd8, fwd9, fwd10;
+	uint8_t rvs1, rvs2, rvs3, rvs4, rvs5, rvs6, rvs7, rvs8, rvs9, rvs10;
 	while (1) {
 		drawString(68, 34, FONT_MD_BKG, "001");
 		drawString(68, 50, FONT_MD_BKG, "001");
