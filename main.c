@@ -9,9 +9,9 @@
 #include "color.h"
 #include "graphics.h"
 #include "lcd.h"
-#include "tests.h"
+//#include "tests.h"
 #include <stdint.h>
-
+#include <stdio.h>
 #include "HAL_MSP432_320x240_ILI9341.h"
 
 //uint8_t orientation = 2;
@@ -36,12 +36,10 @@ void main(void) {
     MAP_CS_initClockSignal(CS_SMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1 );
     MAP_CS_initClockSignal(CS_ACLK, CS_REFOCLK_SELECT, CS_CLOCK_DIVIDER_1);
 
-    HAL_LCD_SpiInit();
 
-	_delay_cycles(160000); // wait
-
+	HAL_LCD_SpiInit();
+	_delay_cycles(160000);
 	initLCD();
-
 	clearScreen(1);
 	//setColor(COLOR_16_NAVY);
 	//fillRect(0,0,getScreenWidth() - 1, getScreenHeight() - 1);
@@ -70,7 +68,7 @@ void main(void) {
 	drawString(156, 210, FONT_MD, " IP: 255.255.255.255");
 	drawString(156, 226, FONT_MD, "Web: GIRAFTECH.XYZ");
 
-	drawString(28, 34, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
+	drawString(28, 34, FONT_MD, "FWD: 132W RVS: 000W INACTIVE");
 	drawString(28, 50, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
 	drawString(28, 66, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
 	drawString(28, 82, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
@@ -94,31 +92,24 @@ void main(void) {
 	fillCircle(263, 183, 4);
 	setColor(COLOR_16_WHITE);
 
-	uint8_t fwd[10];
-	uint8_t rvs[10];
-	uint8_t fwd_temp[3];
-	uint8_t rvs_temp[3];
-	uint8_t i, j;
+	uint16_t fwd[10];
+	//uint16_t rvs[10];
+	char fwd_temp[] = "00";
+	//int8_t rvs_temp[3];
+	uint16_t i, j;
+
 	while (1)
 	{
 		for (i = 0; i < 256; i++)
 		{
-			for (j = 0; j < 10; i++)
-			{
-				fwd[j] = i;
-			}
+			for (j = 0; j < 10; j++)
+				{
+					fwd[j] = i;
+				}
+			sprintf(fwd_temp, "%.3u", fwd[1]);
+			drawString(68, 34, FONT_MD_BKG, (int8_t*)fwd_temp);
+			_delay_cycles(10000000);
 		}
-		drawString(68, 34, FONT_MD_BKG, fwd_temp);
-		drawString(68, 50, FONT_MD_BKG, fwd_temp);
-		drawString(68, 66, FONT_MD_BKG, fwd_temp);
-		drawString(68, 82, FONT_MD_BKG, fwd_temp);
-		drawString(68, 98, FONT_MD_BKG, fwd_temp);
-		drawString(68, 114, FONT_MD_BKG, fwd_temp);
-		drawString(68, 130, FONT_MD_BKG, fwd_temp);
-		drawString(68, 146, FONT_MD_BKG, fwd_temp);
-		drawString(68, 162, FONT_MD_BKG, fwd_temp);
-		drawString(68, 178, FONT_MD_BKG, fwd_temp);
 	}
-
 }
 
