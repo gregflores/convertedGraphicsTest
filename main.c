@@ -95,16 +95,16 @@ void main(void) {
 	setColor(COLOR_16_WHITE);
 
 	while (1) {
-		drawString(68, 34, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 50, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 66, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 82, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 98, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 114, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 130, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 146, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 162, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
-		drawString(68, 178, FONT_MD, "FWD: 000W RVS: 000W INACTIVE");
+		drawString(68, 34, FONT_MD_BKG, "001");
+		drawString(68, 50, FONT_MD_BKG, "001");
+		drawString(68, 66, FONT_MD_BKG, "001");
+		drawString(68, 82, FONT_MD_BKG, "001");
+		drawString(68, 98, FONT_MD_BKG, "001");
+		drawString(68, 114, FONT_MD_BKG, "001");
+		drawString(68, 130, FONT_MD_BKG, "001");
+		drawString(68, 146, FONT_MD_BKG, "001");
+		drawString(68, 162, FONT_MD_BKG, "001");
+		drawString(68, 178, FONT_MD_BKG, "001");
 	}
 
 }
