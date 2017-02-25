@@ -94,19 +94,30 @@ void main(void) {
 	fillCircle(263, 183, 4);
 	setColor(COLOR_16_WHITE);
 
-	uint8_t fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7, fwd8, fwd9, fwd10;
-	uint8_t rvs1, rvs2, rvs3, rvs4, rvs5, rvs6, rvs7, rvs8, rvs9, rvs10;
-	while (1) {
-		drawString(68, 34, FONT_MD_BKG, "001");
-		drawString(68, 50, FONT_MD_BKG, "001");
-		drawString(68, 66, FONT_MD_BKG, "001");
-		drawString(68, 82, FONT_MD_BKG, "001");
-		drawString(68, 98, FONT_MD_BKG, "001");
-		drawString(68, 114, FONT_MD_BKG, "001");
-		drawString(68, 130, FONT_MD_BKG, "001");
-		drawString(68, 146, FONT_MD_BKG, "001");
-		drawString(68, 162, FONT_MD_BKG, "001");
-		drawString(68, 178, FONT_MD_BKG, "001");
+	uint8_t fwd[10];
+	uint8_t rvs[10];
+	uint8_t fwd_temp[3];
+	uint8_t rvs_temp[3];
+	uint8_t i, j;
+	while (1)
+	{
+		for (i = 0; i < 256; i++)
+		{
+			for (j = 0; j < 10; i++)
+			{
+				fwd[j] = i;
+			}
+		}
+		drawString(68, 34, FONT_MD_BKG, fwd_temp);
+		drawString(68, 50, FONT_MD_BKG, fwd_temp);
+		drawString(68, 66, FONT_MD_BKG, fwd_temp);
+		drawString(68, 82, FONT_MD_BKG, fwd_temp);
+		drawString(68, 98, FONT_MD_BKG, fwd_temp);
+		drawString(68, 114, FONT_MD_BKG, fwd_temp);
+		drawString(68, 130, FONT_MD_BKG, fwd_temp);
+		drawString(68, 146, FONT_MD_BKG, fwd_temp);
+		drawString(68, 162, FONT_MD_BKG, fwd_temp);
+		drawString(68, 178, FONT_MD_BKG, fwd_temp);
 	}
 
 }
