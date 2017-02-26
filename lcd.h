@@ -25,7 +25,7 @@ void setOrientation(uint8_t orientation);
 #define LCD_OFFSET_WIDTH 0
 //
 #endif
-
+#define SYSTEM_CLOCK_SPEED      48000000
 // orientation
 #define ORIENTATION_VERTICAL 0
 #define ORIENTATION_HORIZONTAL 1

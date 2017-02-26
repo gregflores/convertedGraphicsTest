@@ -59,35 +59,90 @@ void HAL_LCD_SpiInit()
 
 void writeData(uint8_t data)
 {
-    // USCI_B0 Busy? //
-    while (UCB0STATW & UCBUSY);
+    uint8_t ui8Data;
 
-    // Transmit data
-    UCB0TXBUF = data;
+    //
+    // Calculate the high byte to transmit.
+    //
+    ui8Data = (uint8_t)(data >> 8);
+
+    //
+    // Wait for the transmit buffer to become empty.
+    //
+    while(!SPI_getInterruptStatus(LCD_EUSCI_MODULE,
+                                  EUSCI_B_SPI_TRANSMIT_INTERRUPT))
+    {
+        ;
+    }
+
+    //
+    // Transmit the high byte.
+    //
+    SPI_transmitData(LCD_EUSCI_MODULE,ui8Data);
+
+    //
+    // Calculate the low byte to transmit.
+    //
+    ui8Data = (uint8_t)(data & 0xff);
+
+    //
+    // Wait for the transmit buffer to become empty.
+    //
+    while(!SPI_getInterruptStatus(LCD_EUSCI_MODULE,
+                                  EUSCI_B_SPI_TRANSMIT_INTERRUPT))
+    {
+        ;
+    }
+
+    //
+    // Transmit the high byte.
+    //
+    SPI_transmitData(LCD_EUSCI_MODULE,ui8Data);
 }
 
 
 void writeCommand(uint8_t command)
 {
-    // Set to command mode
+    //
+    // Wait for any SPI transmission to complete before setting the LCD_DC signal.
+    //
+    while(SPI_isBusy(LCD_EUSCI_MODULE))
+    {
+        ;
+    }
+
+    //
+    // Set the LCD_DC signal low, indicating that following writes are commands.
+    //
     GPIO_setOutputLowOnPin(LCD_DC_PORT, LCD_DC_PIN);
 
-    // USCI_B0 Busy? //
-    while (UCB0STATW & UCBUSY);
+    //
+    // Transmit the command.
+    //
+    SPI_transmitData(LCD_EUSCI_MODULE, command);
 
-    // Transmit data
-    UCB0TXBUF = command;
+    //
+    // Wait for the SPI transmission to complete before setting the LCD_SDC signal.
+    //
+    while(SPI_isBusy(LCD_EUSCI_MODULE))
+    {
+        ;
+    }
 
-    // Set back to data mode
-    GPIO_setOutputHighOnPin(LCD_DC_PORT, LCD_DC_PIN);
+    //
+    // Set the LCD_SDC signal high, indicating that following writes are data.
+    //
+    GPIO_setOutputHighOnPin(LCD_DC_PORT,LCD_DC_PIN);
 }
 
 
-void delay(uint8_t x10ms)
+void delay(uint16_t msec)
 {
-	while (x10ms > 0)
-	{
-		_delay_cycles(160000);
-		x10ms--;
-	}
+	uint32_t i = 0;
+    uint32_t time = (msec/ 1000) * (SYSTEM_CLOCK_SPEED / 15);
+
+    for(i = 0; i < time; i++)
+    {
+        __NOP();
+    }
 }

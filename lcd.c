@@ -140,10 +140,10 @@ void initLCD() {
 	}
 	//_delay_cycles(1000);
 	writeCommand(SLEEPOUT);
-	delay(120);
+	delay(12000);
 	writeCommand(DISPON);
 	writeCommand(RAMWRP);
-	delay(50);
+	delay(50000);
 	//_delay_cycles(1000);
 }
 

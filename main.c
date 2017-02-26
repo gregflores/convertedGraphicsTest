@@ -1,8 +1,8 @@
 /*
  * main.c
  *
- *  Created on: Sep 15, 2014
- *      Author: RobG
+ *  Created on: Feb 25, 2016
+ *      Author: Gregorio Flores
  */
 #include "msp.h"
 #include "driverlib.h"
@@ -16,7 +16,8 @@
 
 //uint8_t orientation = 2;
 
-void main(void) {
+void main(void)
+{
 
 	/* Halting WDT and disabling master interrupts */
     MAP_WDT_A_holdTimer();
@@ -190,7 +191,6 @@ void main(void) {
 			sprintf((char*)outsideTempC, "%.3u", outsideTemp);
 			drawString(116, 226, FONT_MD_BKG, outsideTempC);
 
-
 			sprintf((char*)fwd_temp, "%.3u", fwd[0]);
 			drawString(68, 34, FONT_MD_BKG, fwd_temp);
 			sprintf((char*)fwd_temp, "%.3u", fwd[1]);
@@ -233,8 +233,6 @@ void main(void) {
 			sprintf((char*)rvs_temp, "%.3u", rvs[9]);
 			drawString(148, 178, FONT_MD_BKG, rvs_temp);
 		}
-
-
 	}/* === while === */
 }
 
