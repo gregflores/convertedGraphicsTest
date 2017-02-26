@@ -79,16 +79,27 @@ void main(void) {
 	drawString(28, 162, FONT_MD, "FWD: 000W RVS: 000W");
 	drawString(28, 178, FONT_MD, "FWD: 000W RVS: 000W");
 
+	//Counting variables for the for loops
+	uint16_t i, j;
+
+	//Activity flag. 0 is inactive, 1 is active.
+	int16_t activity = 0;
+
+	//Forward and reverse power int values. The fwd_temp and rvs_temp chars are for converting the ints
+	//and displaying the values on the LCD
 	uint16_t fwd[10];
 	uint16_t rvs[10];
 	int8_t fwd_temp[] = "";
 	int8_t rvs_temp[] = "";
-	uint16_t i, j;
-	int16_t activity = 0;
+
+	//Inside and outside temperature variables. the insideTempC and outsideTempC are for converting and displaying
 	int16_t insideTemp, outsideTemp;
 	int8_t insideTempC[] = "", outsideTempC[] = "";
+
+	//IP value to display the 4 numbers on the screen
 	int16_t ipAddress[4] = {255, 255, 255, 255};
 	int8_t ipAddress_temp[] = "";
+
 	/* === while === */
 	while (1)
 	{
