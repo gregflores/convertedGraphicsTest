@@ -17,7 +17,7 @@ void writeData(uint8_t data);
 void writeCommand(uint8_t command);
 void delay(uint8_t x10ms);
 
-// clock
+// clock P1.1
 #ifndef LCD_SCLK_PIN
 #define LCD_SCLK_PIN GPIO_PIN5
 #define LCD_SCLK_PORT GPIO_PORT_P1
