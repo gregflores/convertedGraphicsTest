@@ -43,7 +43,7 @@ void HAL_LCD_SpiInit()
     {
         EUSCI_SPI_CLOCKSOURCE_SMCLK,                      		// SMCLK Clock Source
         MAP_CS_getSMCLK(),                                  			// Get SMCLK frequency
-        16000000,                                                	// SPICLK = 16 MHz
+        8000000,                                                	// SPICLK = 16 MHz
         EUSCI_SPI_MSB_FIRST,                             			// MSB First
 		EUSCI_SPI_PHASE_DATA_CAPTURED_ONFIRST_CHANGED_ON_NEXT, 	// Phase //  EUSCI_B_SPI_PHASE_DATA_CHANGED_ONFIRST_CAPTURED_ON_NEXT
         EUSCI_SPI_CLOCKPOLARITY_INACTIVITY_LOW,         			// Low polarity
@@ -59,18 +59,10 @@ void HAL_LCD_SpiInit()
 
 void writeData(uint8_t data)
 {
-    uint8_t ui8Data;
-
-    //
-    // Calculate the high byte to transmit.
-    //
-    ui8Data = (uint8_t)(data >> 8);
-
     //
     // Wait for the transmit buffer to become empty.
     //
-    while(!SPI_getInterruptStatus(LCD_EUSCI_MODULE,
-                                  EUSCI_B_SPI_TRANSMIT_INTERRUPT))
+    while(SPI_isBusy(LCD_EUSCI_MODULE))
     {
         ;
     }
@@ -78,26 +70,8 @@ void writeData(uint8_t data)
     //
     // Transmit the high byte.
     //
-    SPI_transmitData(LCD_EUSCI_MODULE,ui8Data);
+    SPI_transmitData(LCD_EUSCI_MODULE,data);
 
-    //
-    // Calculate the low byte to transmit.
-    //
-    ui8Data = (uint8_t)(data & 0xff);
-
-    //
-    // Wait for the transmit buffer to become empty.
-    //
-    while(!SPI_getInterruptStatus(LCD_EUSCI_MODULE,
-                                  EUSCI_B_SPI_TRANSMIT_INTERRUPT))
-    {
-        ;
-    }
-
-    //
-    // Transmit the high byte.
-    //
-    SPI_transmitData(LCD_EUSCI_MODULE,ui8Data);
 }
 
 
@@ -136,13 +110,12 @@ void writeCommand(uint8_t command)
 }
 
 
-void delay(uint16_t msec)
-{
-	uint32_t i = 0;
-    uint32_t time = (msec/ 1000) * (SYSTEM_CLOCK_SPEED / 15);
 
-    for(i = 0; i < time; i++)
-    {
-        __NOP();
-    }
+void delay(uint8_t x10ms)
+{
+	while (x10ms > 0)
+	{
+		_delay_cycles(160000);
+		x10ms--;
+	}
 }
