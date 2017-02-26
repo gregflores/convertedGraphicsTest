@@ -79,6 +79,7 @@ void main(void) {
 	drawString(28, 162, FONT_MD, "FWD: 000W RVS: 000W");
 	drawString(28, 178, FONT_MD, "FWD: 000W RVS: 000W");
 
+
 	//Counting variables for the for loops
 	uint16_t i, j;
 
