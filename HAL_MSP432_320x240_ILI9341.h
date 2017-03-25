@@ -15,8 +15,8 @@
 void HAL_LCD_SpiInit();
 void writeData(uint8_t data);
 void writeCommand(uint8_t command);
-void delay(uint8_t x10ms);
-
+void delay(uint8_t msec);
+#define LCD_EUSCI_MODULE                      EUSCI_B0_BASE
 // clock P1.1
 #ifndef LCD_SCLK_PIN
 #define LCD_SCLK_PIN GPIO_PIN5
