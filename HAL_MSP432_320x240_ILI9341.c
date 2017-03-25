@@ -43,7 +43,7 @@ void HAL_LCD_SpiInit()
     {
         EUSCI_SPI_CLOCKSOURCE_SMCLK,                      		// SMCLK Clock Source
         MAP_CS_getSMCLK(),                                  			// Get SMCLK frequency
-        16000000,                                                	// SPICLK = 16 MHz
+        8000000,                                                	// SPICLK = 16 MHz
         EUSCI_SPI_MSB_FIRST,                             			// MSB First
 		EUSCI_SPI_PHASE_DATA_CAPTURED_ONFIRST_CHANGED_ON_NEXT, 	// Phase //  EUSCI_B_SPI_PHASE_DATA_CHANGED_ONFIRST_CAPTURED_ON_NEXT
         EUSCI_SPI_CLOCKPOLARITY_INACTIVITY_LOW,         			// Low polarity
@@ -59,28 +59,56 @@ void HAL_LCD_SpiInit()
 
 void writeData(uint8_t data)
 {
-    // USCI_B0 Busy? //
-    while (UCB0STATW & UCBUSY);
+    //
+    // Wait for the transmit buffer to become empty.
+    //
+    while(SPI_isBusy(LCD_EUSCI_MODULE))
+    {
+        ;
+    }
 
-    // Transmit data
-    UCB0TXBUF = data;
+    //
+    // Transmit the high byte.
+    //
+    SPI_transmitData(LCD_EUSCI_MODULE,data);
+
 }
 
 
 void writeCommand(uint8_t command)
 {
-    // Set to command mode
+    //
+    // Wait for any SPI transmission to complete before setting the LCD_DC signal.
+    //
+    while(SPI_isBusy(LCD_EUSCI_MODULE))
+    {
+        ;
+    }
+
+    //
+    // Set the LCD_DC signal low, indicating that following writes are commands.
+    //
     GPIO_setOutputLowOnPin(LCD_DC_PORT, LCD_DC_PIN);
 
-    // USCI_B0 Busy? //
-    while (UCB0STATW & UCBUSY);
+    //
+    // Transmit the command.
+    //
+    SPI_transmitData(LCD_EUSCI_MODULE, command);
 
-    // Transmit data
-    UCB0TXBUF = command;
+    //
+    // Wait for the SPI transmission to complete before setting the LCD_SDC signal.
+    //
+    while(SPI_isBusy(LCD_EUSCI_MODULE))
+    {
+        ;
+    }
 
-    // Set back to data mode
-    GPIO_setOutputHighOnPin(LCD_DC_PORT, LCD_DC_PIN);
+    //
+    // Set the LCD_SDC signal high, indicating that following writes are data.
+    //
+    GPIO_setOutputHighOnPin(LCD_DC_PORT,LCD_DC_PIN);
 }
+
 
 
 void delay(uint8_t x10ms)
